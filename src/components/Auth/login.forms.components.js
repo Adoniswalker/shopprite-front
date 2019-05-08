@@ -3,6 +3,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { cache } from "../../App";
 import Loading from "react-loading-components";
+import { createCookie } from "./../Token";
 
 const LOGIN_MUTATION = gql`
     mutation loginMutation($username: String!, $password: String!) {
@@ -25,7 +26,7 @@ export default class LoginForm extends React.Component {
     }
     // state = {};
     _confirm = data => {
-        this.createCookie("jwt-token", data.tokenAuth.token, 3);
+        createCookie("jwt-token", data.tokenAuth.token, 3);
         cache.writeData({
             data: {
                 isLoggedIn: true
@@ -33,19 +34,7 @@ export default class LoginForm extends React.Component {
         });
         this.props.closeModal();
     };
-    createCookie = (name, value, days) => {
-        let expires;
-        if (days) {
-            const date = new Date();
-            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-            expires = "; expires=" + date.toGMTString();
-        } else {
-            expires = "";
-        }
-        let cookie = name + "=" + value + expires;
-        document.cookie = cookie;
-        return cookie;
-    };
+
     render() {
         const { login, email, password, username } = this.state;
 

@@ -1,10 +1,8 @@
 import React, { Fragment } from "react";
 import "./navCss.scss";
-import AuthenticationComponent from "./../Login/login.modal.component";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { ApolloConsumer } from "react-apollo";
-import { removeCookie } from "../../components/Token";
+import { Auth, User } from "./NavHelpers";
 
 const IS_LOGGED_IN = gql`
     query IsUserLoggedIn {
@@ -12,51 +10,6 @@ const IS_LOGGED_IN = gql`
     }
 `;
 
-export default function LogoutButton() {
-    return (
-        <ApolloConsumer>
-            {client => (
-                <div
-                    className="logout-btn text-danger"
-                    onClick={() => {
-                        client.writeData({ data: { isLoggedIn: false } });
-                        removeCookie("jwt-token");
-                    }}
-                >
-                    Logout
-                </div>
-            )}
-        </ApolloConsumer>
-    );
-}
-
-const Auth = props => {
-    return (
-        <Fragment>
-            Hi!
-            <button
-                type="button"
-                onClick={() => props.render_modal()}
-                className="btn btn-link"
-            >
-                Sign in
-            </button>{" "}
-            or
-            <button type="button" className="btn btn-link">
-                Register
-            </button>
-            {props.render && <AuthenticationComponent openModel={true} />}
-        </Fragment>
-    );
-};
-
-const User = () => {
-    return (
-        <p className="nav-link">
-            Hi! Dennis Ngeno <LogoutButton />
-        </p>
-    );
-};
 export class NavBar extends React.Component {
     state = {
         render: false

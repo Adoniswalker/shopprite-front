@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
 // import "./login.scss";
-import LoginForm from "./login.forms.components";
+import LoginForm from "../../components/Auth/login.forms.components";
 
 const customStyles = {
     content: {
@@ -48,10 +48,6 @@ export default class AuthenticationComponent extends React.Component {
     }
 
     render() {
-        // if (this.props.openModel === true) {
-        // console.log("login called"+this.props.openModal);
-        // this.openModal();
-        // }
         return (
             <Modal
                 isOpen={this.state.modalIsOpen}
