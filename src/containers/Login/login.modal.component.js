@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "react-modal";
 // import "./login.scss";
 import LoginForm from "../../components/Auth/login.forms.components";
+import SignUp from "../SignUp/signup-container";
 
 const customStyles = {
     content: {
@@ -74,7 +75,7 @@ export default class AuthenticationComponent extends React.Component {
                                         aria-controls="nav-home"
                                         aria-selected="true"
                                     >
-                                        Home
+                                        Login
                                     </a>
                                     <a
                                         className="nav-item nav-link"
@@ -85,7 +86,7 @@ export default class AuthenticationComponent extends React.Component {
                                         aria-controls="nav-profile"
                                         aria-selected="false"
                                     >
-                                        Profile
+                                        Sign Up
                                     </a>
                                 </div>
                             </nav>
@@ -107,7 +108,7 @@ export default class AuthenticationComponent extends React.Component {
                                     role="tabpanel"
                                     aria-labelledby="nav-profile-tab"
                                 >
-                                    Et et consectetur
+                                    <SignUp />
                                 </div>
                             </div>
                         </div>

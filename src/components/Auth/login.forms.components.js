@@ -4,6 +4,8 @@ import gql from "graphql-tag";
 import { cache } from "../../App";
 import Loading from "react-loading-components";
 import { createCookie } from "./../Token";
+import { IS_LOGGED_IN } from "./../NavBar/nav.component";
+import { onError } from "apollo-link-error";
 
 const LOGIN_MUTATION = gql`
     mutation loginMutation($username: String!, $password: String!) {
@@ -21,10 +23,10 @@ export default class LoginForm extends React.Component {
             email: "",
             username: "",
             password: "",
-            name: ""
+            name: "",
+            loginError: ""
         };
     }
-    // state = {};
     _confirm = data => {
         createCookie("jwt-token", data.tokenAuth.token, 3);
         cache.writeData({
@@ -45,7 +47,10 @@ export default class LoginForm extends React.Component {
                 }}
             >
                 <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
+                    <p className="help-inline text-danger">
+                        {this.state.loginError}
+                    </p>
+                    <label htmlFor="exampleInputEmail1">Username</label>
                     <input
                         type="name"
                         value={username}
@@ -89,8 +94,18 @@ export default class LoginForm extends React.Component {
                         mutation={LOGIN_MUTATION}
                         variables={{ username, password }}
                         onCompleted={data => this._confirm(data)}
+                        refetchQueries={[{ query: IS_LOGGED_IN }]}
+                        onError={error =>
+                            this.setState({
+                                loginError: error.graphQLErrors.map(
+                                    ({ message }, i) => (
+                                        <span key={i}>{message}</span>
+                                    )
+                                )
+                            })
+                        }
                     >
-                        {(mutation, { loading, error }) => {
+                        {(mutation, { loading }) => {
                             if (loading)
                                 return (
                                     <Loading
@@ -100,10 +115,6 @@ export default class LoginForm extends React.Component {
                                         fill="#f44242"
                                     />
                                 );
-                            if (error) {
-                                console.log(error);
-                                console.log(error.message);
-                            }
 
                             return (
                                 <button

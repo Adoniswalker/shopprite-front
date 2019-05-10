@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { Auth, User } from "./NavHelpers";
 
-const IS_LOGGED_IN = gql`
+export const IS_LOGGED_IN = gql`
     query IsUserLoggedIn {
         isLoggedIn @client
     }

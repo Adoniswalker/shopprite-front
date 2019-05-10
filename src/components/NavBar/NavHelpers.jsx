@@ -43,8 +43,8 @@ export const Auth = props => {
 
 export const User = () => {
     return (
-        <p className="nav-link">
+        <div className="nav-link">
             Hi! Dennis Ngeno <LogoutButton />
-        </p>
+        </div>
     );
 };
